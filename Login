@@ -1,1 +1,57 @@
 //Login
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct Usuario {
+    string nombre;
+    string pin;
+};
+
+int validarAcceso(const vector<Usuario>& usuarios) {
+    string usuarioIngresado;
+    string pinIngresado;
+    int intentos = 0;
+
+    while (intentos < 3) {
+        cout << "\n=== INTENTO #" << (intentos + 1) << " ===" << endl;
+        cout << "Usuario: ";
+        cin >> usuarioIngresado;
+        cout << "PIN: ";
+        cin >> pinIngresado;
+
+        for (int i = 0; i < usuarios.size(); ++i) {
+            if (usuarios[i].nombre == usuarioIngresado && usuarios[i].pin == pinIngresado) {
+                cout << "Acceso concedido.\n";
+                return 1;
+            }
+        }
+
+        cout << "Usuario o PIN incorrecto.\n";
+        intentos++;
+    }
+
+    cout << "\nDemasiados intentos fallidos. Acceso bloqueado.\n";
+    return 0; 
+}
+
+int main() {
+    vector<Usuario> usuariosValidos = {
+        {"juan", "1234"},
+        {"matias", "4321"}
+    };
+
+    cout << "=== INGRESO AL CAJERO AUTOMÁTICO ===\n";
+
+    int acceso = validarAcceso(usuariosValidos);
+
+    if (acceso == 1) {
+        cout << "Bienvenido al sistema.\n";
+    } else {
+        cout << "Por favor contacte a soporte.\n";
+    }
+
+    return 0;
+}
