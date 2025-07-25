@@ -27,7 +27,7 @@ void depositar(Cuenta &cuenta, double deposito) {
 
         ofstream archivo("movimientos.txt", ios::app);
         if (archivo.is_open()) {
-            archivo << "Deposito|" << cuenta.numeroCuenta << "|" << deposito << endl;
+            archivo << "Deposito ==> " << cuenta.numeroCuenta << "=" << deposito << endl;
             archivo.close();
         } else {
             cout<< "No se pudo registrar el movimiento." << endl;
