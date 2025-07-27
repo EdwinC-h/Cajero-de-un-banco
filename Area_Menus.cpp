@@ -65,12 +65,12 @@ void ejecutarRegistro(){
 bool logear(Cuenta &cuentaActiva){
 	ifstream archivo("cuentas.txt");
 	string linea;
-	string nombreCuenta, contrase�a;
+	string nombreCuenta, contraseña;
 	
 	cin.ignore();
 	cout<<"=== Iniciar Sesion ==="<<endl;
 	cout<<"Usuario: ";getline(cin,nombreCuenta);
-	cout<<"Contrase�a: ";cin>>contrase�a;
+	cout<<"Contraseña: ";cin>>contraseña;
 	
 
     while (getline(archivo, linea)) {
@@ -87,7 +87,7 @@ bool logear(Cuenta &cuentaActiva){
 
         cuenta.dinero = stod(plata);
 
-        if (cuenta.usuario == nombreCuenta and cuenta.pin == contrase�a) {
+        if (cuenta.usuario == nombreCuenta and cuenta.pin == contraseña) {
             cuentaActiva = cuenta;
             return true;
         }
@@ -168,10 +168,54 @@ void retirar(Cuenta &cuenta, double monto) {
         cout << "Fondos insuficientes o monto invalido." << endl;
     }
 }
+void cambiarPin() {
+    ifstream archivoOriginal("cuentas.txt");
+    ofstream archivoTemporal("temp.txt");
+    
+    string usuario, pinActual, nuevoPin;
+    bool cambiado = false;
 
+    cin.ignore();
+    cout << "=== CAMBIO DE PIN ===" << endl;
+    cout << "Usuario: "; getline(cin, usuario);
+    cout << "PIN actual: "; getline(cin, pinActual);
 
-	
+    string linea;
+    while (getline(archivoOriginal, linea)) {
+        stringstream ss(linea);
+        Cuenta cuenta;
+        string plata;
+        
+        getline(ss, cuenta.numeroCuenta, ',');
+        getline(ss, cuenta.nombre, ',');
+        getline(ss, cuenta.usuario, ',');
+        getline(ss, cuenta.pin, ',');
+        getline(ss, cuenta.tipo, ',');
+        getline(ss, plata);
 
+        cuenta.dinero = stod(plata);
+
+        if (cuenta.usuario == usuario && cuenta.pin == pinActual) {
+            cout << "Ingrese el nuevo PIN: ";
+            getline(cin, nuevoPin);
+            cuenta.pin = nuevoPin;
+            cambiado = true;
+        }
+
+        archivoTemporal << cuenta.numeroCuenta << "," << cuenta.nombre << "," << cuenta.usuario << "," << cuenta.pin << "," << cuenta.tipo << "," << cuenta.dinero << endl;
+    }
+
+    archivoOriginal.close();
+    archivoTemporal.close();
+    remove("cuentas.txt");
+    rename("temp.txt", "cuentas.txt");
+
+    if (cambiado) {
+        cout << "PIN actualizado con éxito." << endl;
+    } else {
+        cout << "Usuario o PIN incorrecto. No se actualizó nada." << endl;
+    }
+}
 void menuPrincipal(){
 	cout << "\n///////////////////////" << endl;
 	cout << "BIENVENIDO A BANCO-CARD" <<endl;
@@ -246,12 +290,12 @@ void ejecutar(){
 					cout<<"=== BIENVENIDO AL SISTEMA " <<cuenta.usuario<<" ==="<<endl;
 					ejecutarMenuSesion(cuenta);
 				}else{
-					cout<<"Contrase�a o usuario incorrectos."<<endl;
+					cout<<"Contraseña o usuario incorrectos."<<endl;
 				}
 			}
 			break;
 		case 3:
-			cout<<"cambiar PIN"<<endl;
+			cambiarPin();
 			break;
 		case 4:
 			cout <<"Saliendo del sistema"<<endl;
