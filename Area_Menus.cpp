@@ -95,7 +95,7 @@ bool logear(Cuenta &cuentaActiva){
     return false;
 }
 
-void actualizarDatos(const Cuenta &cuenta){
+void actualizarDatos(const Cuenta &actulizarCuenta){
 	ifstream leerArchivo("cuentas.txt");
 	ofstream temporal("temp.txt");
 	
@@ -114,8 +114,9 @@ void actualizarDatos(const Cuenta &cuenta){
 
         cuenta.dinero = stod(plata);
         
-        if (cuenta.numeroCuenta == cuenta.numeroCuenta) {
-		    temporal<<cuenta.numeroCuenta<< "," <<cuenta.nombre<< "," <<cuenta.usuario << ","<< cuenta.pin << "," << cuenta.tipo << "," << cuenta.dinero << endl;
+        if (cuenta.numeroCuenta == actulizarCuenta.numeroCuenta) {
+		    temporal<<actulizarCuenta.numeroCuenta<< "," <<actulizarCuenta.nombre<< "," <<actulizarCuenta.usuario << ","<< 
+			actulizarCuenta.pin << "," << actulizarCuenta.tipo << "," << actulizarCuenta.dinero << endl;
 		}else{
 		    temporal<<linea<<endl;
 		}
