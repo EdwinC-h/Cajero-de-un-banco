@@ -279,6 +279,7 @@ void ejecutarMenuSesion(Cuenta &cuenta){
 
 
 void ejecutar(){
+	
 	int opcion;
 	Cuenta cuenta;
 	do{
@@ -314,6 +315,8 @@ void ejecutar(){
 }
 
 int main(){
+	
+	setlocale(LC_ALL, "spanish");
 	
 	ejecutar();
 	
